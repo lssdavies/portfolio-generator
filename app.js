@@ -1,5 +1,6 @@
 //require built in node file system module. Node api or modules include HTTP, URL, FS
 const fs = require('fs');
+const inquirer = require('inquirer');
 const generatePage = require('./src/page-template.js');
 
 //declaring const to capture input excluding the node and app paths
