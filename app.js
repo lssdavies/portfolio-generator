@@ -1,15 +1,15 @@
+const inquirer = require('inquirer');
+//assigns arrow function in page-template.js to generatePage()
+const generatePage = require('./src/page-template');
 /*require built in node file system module. Node api or modules include HTTP, URL, FS*/
 /* const fs is being removed since it is no longer needed in app.js due to being imported from generate-site.js
 const fs = require('fs');*/
 /*imports functions/promises from generate-site.js. this simplified by using object deconstruction.
-
 const generateSite = require('./utils/generate-site')*/
 /*replaced by below since we exported an object from generate-site.js we can use object deconstruction on it. this creates variables out of the object properties ie the functions*/
-const { writeFile, copyFile } = require('./utils/generate-site.js');
+const { writeFile, copyFile } = require('./utils/generate-site');
 
-const inquirer = require('inquirer');
-//assigns arrow function in page-template.js to generatePage()
-const generatePage = require('./src/page-template');
+
 
 /*function call for inquirer.prompt() The prompts are passed as object with a type (question type), name (property that identifies each question uniquely) and message (property that displays the question). So the questions will be stored in an array of objects where each object store the type, name and message of each question*/
 const promptUser = () => {
