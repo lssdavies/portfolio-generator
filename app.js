@@ -34,10 +34,25 @@ const promptUser = () =>  {
         }
       }
     },
+    // Confirm if user will like to add info about themselves
+    {
+      type: 'confirm',
+      name: 'confirmAbout',
+      message: 'Would you like to enter some information about yourself for an "About" section?',
+      default: true
+    },
     {
       type: 'input',
       name: 'about',
-      message: 'Provide some additional information about yourself'
+      message: 'Provide some additional information about yourself',
+      /*using when property to check if user will like to add or skip about question by looking at the response from confirmAbout*/
+      when: ({ confirmAbout }) => {
+        if (confirmAbout) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
   ]);
  };
