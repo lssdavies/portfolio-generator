@@ -1,5 +1,12 @@
 /*require built in node file system module. Node api or modules include HTTP, URL, FS*/
-const fs = require('fs');
+/* const fs is being removed since it is no longer needed in app.js due to being imported from generate-site.js
+const fs = require('fs');*/
+/*imports functions/promises from generate-site.js. this simplified by using object deconstruction.
+
+const generateSite = require('./utils/generate-site')*/
+/*replaced by below since we exported an object from generate-site.js we can use object deconstruction on it. this creates variables out of the object properties ie the functions*/
+const { writeFile, copyFile } = require('./utils/generate-site.js');
+
 const inquirer = require('inquirer');
 //assigns arrow function in page-template.js to generatePage()
 const generatePage = require('./src/page-template');
@@ -173,6 +180,22 @@ promptUser()
     console.log(err);
   });
 
+/* app and function flow summarized
+
+So let's reiterate the flow this function will now have:
+
+1. We start by asking the user for their information with Inquirer prompts; this returns all of the data as an object in a Promise.
+
+2. The promptProject() function captures the returning data from promptUser() and we recursively call promptProject() for as many projects as the user wants to add. Each project will be pushed into a projects array in the collection of portfolio information, and when we're done, the final set of data is returned to the next .then().
+
+3. The finished portfolio data object is returned as portfolioData and sent into the generatePage() function, which will return the finished HTML template code into pageHTML.
+
+4. We pass pageHTML into the newly created writeFile() function, which returns a Promise. This is why we use return here, so the Promise is returned into the next .then() method.
+
+5. Upon a successful file creation, we take the writeFileResponse object provided by the writeFile() function's resolve() execution to log it, and then we return copyFile().
+
+6. The Promise returned by copyFile() then lets us know if the CSS file was copied correctly, and if so, we're all done!
+*/
 
 
 
@@ -185,8 +208,7 @@ promptUser()
 
 
 
-
-// This code was the original code but was replaced by the above code in a refactor due to the asynchronous code, it was left in for reference. It was replaced by code that uses promises instead of callback functions.
+// This code was the original code for prompt user but it had to many callback functionstions associated with it so it was replaced by the above code in a refactor due to the asynchronouscity of the code. The below code was left in for reference. It was replaced by code that uses promises instead of callback functions.
 /*we call the promptUser() function and once that function is completed .then() calls the promptProject() and the promised data from prompt user is passed in as a parameter to portfolioData. promptProject once completed adds the data it captured to portfolioData as an array portfolioData.projects and in the last .then() takes portfolioData in as a parameter and then the function console.logs the data*/
 
 // promptUser()
