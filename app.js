@@ -57,7 +57,7 @@ const promptUser = () =>  {
   ]);
  };
 
- /*function to capture user project data. We add the parameter portfolioData which will be used to store each projects data*/
+ /*function to capture user project data and the data from promptUser is passed to the parameter portfolioData which will be used to store each user info and projects data*/
  const promptProject = portfolioData => {
 
   console.log(`
@@ -65,7 +65,7 @@ const promptUser = () =>  {
 Add a New Project
 =================
 `);
-  /*if there is no projects array property, create an empty array projects, the array will store all the project data. The if statement ensure that projects array is ony set to empty if there is no data in the array.*/
+  /*if there the portfolioData object doesnt have a .projects array property, create an empty array projects within portfolioData, the array will store all the project data. The if statement ensure that portfolioData.projects array is ony set to empty if there is no data in the array.*/
   if (!portfolioData.projects)  {
     portfolioData.projects = [];
   }
@@ -128,10 +128,10 @@ Add a New Project
       default: false
     }
   ])
-  /*once inquirer has collected the data we need to pass the data to the projects array using .then() the data is stored in projectData it is then pushed into the portfolioData.project array established on line 38*/
+  /*once inquirer has collected the data we need to pass the data to the portfolioData.projects array using .then() the promised data is is passed to the .then as the parameter projectData it is then pushed into the portfolioData.project array established on line 38*/
   .then(projectData => {
     portfolioData.projects.push(projectData);
-    /*this conditional statement checks if the user chose to add another project, by checking projectData to see if confirmAddProject evaluated to true. If confirmAddProject is true it will call promptProject and pass the existing portfolioData as a parameter so when it runs it doesnt reinitialize the project array to be blank at the conditoinal statement on line 36*/
+    /*this conditional statement checks if the user chose to add another project, by checking projectData to see if confirmAddProject evaluated to true. If confirmAddProject is true it will call promptProject() and since projectData was pushed to the portfolioData.projects array in line 132 the array is not empty and it will not reinitialize the portfolioData.project array to be an empty array at the conditoinal statement on line 69. portfolioData is passed to promptProject() as a parameter so the data isnt lost*/
     if (projectData.confirmAddProject) {
       return promptProject(portfolioData);
     } 
@@ -141,7 +141,7 @@ Add a New Project
     }
   });
 };
- /*we call the promptUser() function where the promise is appended in .then() which calls the promptProject funtion. It passes both the appended promptUser and promptProject pomises in the last .then() where the appended promises are passed into the portfolioData parameter and then the function console.logs the data*/
+ /*we call the promptUser() function and once that function is completed .then() calls the promptProject() and the promised data from prompt user is passed in as a parameter to portfolioData. promptProject once completed adds the data it captured to portfolioData as an array portfolioData.projects and in the last .then() takes portfolioData in as a parameter and then the function console.logs the data*/
  promptUser()
  .then(promptProject)
  .then(portfolioData => {
