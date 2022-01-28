@@ -153,70 +153,63 @@ Add a New Project
       })
   );
 };
-/*we call the promptUser() function and once that function is completed .then() calls the promptProject() and the promised data from prompt user is passed in as a parameter to portfolioData. promptProject once completed adds the data it captured to portfolioData as an array portfolioData.projects and in the last .then() takes portfolioData in as a parameter and then the function console.logs the data*/
 
 promptUser()
   .then(promptProject)
-  .then((portfolioData) => {
-    /* data in portfolioData object gets assigned to pageHTML as a parameter in generatePage()*/
-    const pageHTML = generatePage(portfolioData);
-  
-    /*using fs.writeFile to create html document. fs.write file requires 3 arguments 1. the file name and location, 2 the data to write to the file (generatedPage() function) and a call back function that will be used for error handling*/
-    fs.writeFile("./index.html", pageHTML, (err) => {
-      if (err) throw new Error(err);
-      console.log('Page created! Check out index.html in this directory to see it!');
-    });
-    console.log(portfolioData);
+  .then(portfolioData => {
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
   });
 
-// //using mockdata
-// const mockData = {
-//   name: 'Lernantino',
-//   github: 'lernantino',
-//   confirmAbout: true,
-//   about:
-//     'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et.',
-//   projects: [
-//     {
-//       name: 'Run Buddy',
-//       description:
-//         'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-//       languages: ['HTML', 'CSS'],
-//       link: 'https://github.com/lernantino/run-buddy',
-//       feature: true,
-//       confirmAddProject: true
-//     },
-//     {
-//       name: 'Taskinator',
-//       description:
-//         'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-//       languages: ['JavaScript', 'HTML', 'CSS'],
-//       link: 'https://github.com/lernantino/taskinator',
-//       feature: true,
-//       confirmAddProject: true
-//     },
-//     {
-//       name: 'Taskmaster Pro',
-//       description:
-//         'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-//       languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
-//       link: 'https://github.com/lernantino/taskmaster-pro',
-//       feature: false,
-//       confirmAddProject: true
-//     },
-//     {
-//       name: 'Robot Gladiators',
-//       description:
-//         'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
-//       languages: ['JavaScript'],
-//       link: 'https://github.com/lernantino/robot-gladiators',
-//       feature: false,
-//       confirmAddProject: false
-//     }
-//   ]
-// };
 
 
-// const pageHTML = generatePage(mockData);
 
-// //end of mockData to be removed
+
+
+
+
+
+
+
+
+
+
+// This code was the original code but was replaced by the above code in a refactor due to the asynchronous code, it was left in for reference. It was replaced by code that uses promises instead of callback functions.
+/*we call the promptUser() function and once that function is completed .then() calls the promptProject() and the promised data from prompt user is passed in as a parameter to portfolioData. promptProject once completed adds the data it captured to portfolioData as an array portfolioData.projects and in the last .then() takes portfolioData in as a parameter and then the function console.logs the data*/
+
+// promptUser()
+//   .then(promptProject)
+//   .then((portfolioData) => {
+//     /* data in portfolioData object gets assigned to pageHTML as a parameter in generatePage()*/
+//     const pageHTML = generatePage(portfolioData);
+  
+//     /*using fs.writeFile to create html document in the dist folder short for distribution which is a best practice in web development. fs.write file requires 3 arguments 1. the file name and location, 2 the data to write to the file (generatedPage() function) and a call back function that will be used for error handling*/
+//     fs.writeFile('./dist/index.html', pageHTML, err => {
+//       if (err) {
+//         console.log(err);
+//         return;
+//       }
+//       console.log('Page created! Check out index.html in this directory to see it!');
+    
+//       /* fs.copy is used to copy the css to the dist folder. fs.copy file needs the location of the file to be copied the location the file will be copied to and a function for error handling, similar to fs.write 3arguments needeed*/
+//       fs.copyFile('./src/style.css', './dist/style.css', err => {
+//         if (err) {
+//           console.log(err);
+//           return;
+//         }
+//         console.log('Style sheet copied successfully!');
+//       });
+//     });
+//   });
